@@ -4,9 +4,7 @@ const authController = require('../controllers/auth');
 
 const router = express.Router();
 
-router.get('/login', (req, res, next) => {
-    res.render('/login', authController.getLogin);
-});
+router.get('/login', authController.getLogin);
 
 
 module.exports = router;
