@@ -9,7 +9,8 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
-const MONGODB_URI = 'mongodb+srv://gia-edgington:password_db@clusternode-szpnr.mongodb.net/shop?retryWrites=true&w=majority';
+const MONGODB_URI = 
+'mongodb+srv://gia-edgington:password_db@clusternode-szpnr.mongodb.net/shop';
 
 const app = express();
 const store = new MongoDBStore({
