@@ -18,7 +18,11 @@ exports.getLogin = (req, res, next) => {
     .then(user => {
         req.session.isLoggedIn = true;
         req.session.user = user;
-        res.redirect('/');
+        //to make sure session has been saved before redirecting
+        req.session.save(err => {
+            console.log(err);
+            res.redirect('/');
+        }); 
     })
     .catch(err => console.log(err));
 };
