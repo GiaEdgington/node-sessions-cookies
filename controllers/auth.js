@@ -3,35 +3,37 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 exports.getLogin = (req, res, next) => {
-   /* const isLoggedIn = req.get('Cookie')
-    .split(';')[0]
-    .trim()
-    .split('=')[1]; */
-    //console.log(req.session);
+    let message =req.flash('error');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
         res.render('auth/login', {
           path: '/login',
           pageTitle: 'Login',
-          isAuthenticated: false
+          errorMessage: message
       });
   };
 
   exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
       path: '/signup',
-      pageTitle: 'Signup',
-      isAuthenticated: false
+      pageTitle: 'Signup'
     });
   };
 
   exports.postLogin = (req, res, next) => {
-      const email = req.body.email;
-      const password = req.body.password;
-    User.findOne({email: email})
+    const email = req.body.email;
+    const password = req.body.password;
+    User.findOne({ email: email })
     .then(user => {
         if (!user) {
-            return res.redirect('/login')
+            req.flash('error', 'Invalid email or password.');
+            return res.redirect('/login');
         }
-        bcrypt.compare(password, user.password)
+        bcrypt
+        .compare(password, user.password)
         .then(doMatch => {
             if(doMatch) {
                 req.session.isLoggedIn = true;
